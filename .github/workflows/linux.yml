@@ -7,11 +7,15 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        cxx: [g++-8, clang++]
+        cxx: [g++4.8, g++-8, clang++]
         build_type: [Debug, Release]
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Install GCC
+      if: matrix.cxx == 'g++-4.8'
+      run: sudo apt install g++-4.8
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
